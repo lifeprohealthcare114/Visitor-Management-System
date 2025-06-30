@@ -1,0 +1,39 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.admin-header {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.admin-header h1 {
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+.admin-header p {
+  color: #666;
+  margin: 0;
+}
+
+.new-submissions {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-top: 10px;
+}

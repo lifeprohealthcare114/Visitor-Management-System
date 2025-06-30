@@ -1,17 +1,35 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import './App.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+serviceWorkerRegistration.register({
+  onSuccess: (registration) => {
+    console.log('ServiceWorker registration successful');
+  },
+  onUpdate: (registration) => {
+    if (window.confirm('New version available! Update now?')) {
+      const worker = registration.waiting;
+      if (worker) {
+        worker.postMessage({ type: 'SKIP_WAITING' });
+        window.location.reload();
+      }
+    }
+  },
+});
+
 reportWebVitals();

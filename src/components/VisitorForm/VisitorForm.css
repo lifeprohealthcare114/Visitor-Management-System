@@ -1,0 +1,129 @@
+.visitor-form {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 30px;
+  background: var(--form-bg);
+  border: 1px solid var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.visitor-form h2 {
+  color: #d35400;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.input-error {
+  border-color: var(--error-color);
+}
+
+.error-message {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  display: block;
+  margin-top: 5px;
+}
+
+.submit-button {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.submit-button:hover {
+  background-color: #e67e22;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+}
+
+.react-phone-number-input {
+  width: 100%;
+}
+
+.react-phone-number-input__input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+}
+
+.react-phone-number-input__country {
+  padding: 10px;
+}
+
+.phone-input-error .react-phone-number-input__input {
+  border-color: var(--error-color);
+}
+
+@media (max-width: 768px) {
+  .visitor-form {
+    padding: 20px;
+    margin: 15px auto;
+  }
+  
+  .form-group {
+    margin-bottom: 12px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 8px;
+  }
+  
+  .submit-button {
+    padding: 10px;
+  }
+  
+  .react-phone-number-input__input {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .visitor-form {
+    padding: 15px;
+  }
+  
+  .visitor-form h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+}
