@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../../components/Header/Header';
 import VisitorForm from '../../components/VisitorForm/VisitorForm';
 import AnnouncementBanner from '../../components/AnnouncementBanner/AnnouncementBanner';

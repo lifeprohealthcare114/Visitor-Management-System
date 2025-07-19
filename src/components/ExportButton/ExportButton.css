@@ -1,14 +1,21 @@
+.export-buttons-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .export-button {
-  background-color: var(--success-color);
+  background-color: var(--success-color, #28a745);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s;
-  flex: 1;
-  min-width: 120px;
+  transition: background-color 0.3s ease;
+  min-width: 140px;
 }
 
 .export-button:hover {
@@ -17,4 +24,16 @@
 
 .export-button:active {
   background-color: #219653;
+}
+
+.pdf-button {
+  background-color: #e74c3c; /* Red for PDF */
+}
+
+.pdf-button:hover {
+  background-color: #ff6f61;
+}
+
+.pdf-button:active {
+  background-color: #c0392b;
 }

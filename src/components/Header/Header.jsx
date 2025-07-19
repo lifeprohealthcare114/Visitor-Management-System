@@ -46,14 +46,14 @@ function Header({ onAdminLogin }) {
           </Link>
           
           <div className="header-actions">
-            {deferredPrompt && !isAppInstalled && (
+            {/* {deferredPrompt && !isAppInstalled && (
               <button 
                 className="install-btn"
                 onClick={installApp}
               >
                 Install App
               </button>
-            )}
+            )} */}
             <button 
               className="admin-btn"
               onClick={() => setShowAdminModal(true)}

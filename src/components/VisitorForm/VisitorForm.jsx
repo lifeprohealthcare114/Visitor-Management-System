@@ -23,7 +23,7 @@ function VisitorForm({ onSubmitSuccess }) {
   const getNextId = () => {
     const storedData = localStorage.getItem('visitorRegistrations');
     if (!storedData) return 1;
-    
+
     const visitors = JSON.parse(storedData);
     return visitors.length > 0 ? Math.max(...visitors.map(v => v.id)) + 1 : 1;
   };
