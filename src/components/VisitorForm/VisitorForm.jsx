@@ -105,7 +105,7 @@ function VisitorForm({ onSubmitSuccess }) {
         return;
       }
 
-      toast.success('Visitor registered successfully and thank you email sent!', {
+      toast.success('Visitor registered successfully', {
         position: "top-center",
         autoClose: 3000,
       });
@@ -126,7 +126,7 @@ function VisitorForm({ onSubmitSuccess }) {
 
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Failed to save visitor data or send thank you email');
+      toast.error('Failed to registered successfully ');
     } finally {
       setLoading(false);
     }
