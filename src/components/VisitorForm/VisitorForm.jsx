@@ -20,14 +20,6 @@ function VisitorForm({ onSubmitSuccess }) {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const getNextId = () => {
-    const storedData = localStorage.getItem('visitorRegistrations');
-    if (!storedData) return 1;
-
-    const visitors = JSON.parse(storedData);
-    return visitors.length > 0 ? Math.max(...visitors.map(v => v.id)) + 1 : 1;
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -55,37 +47,39 @@ function VisitorForm({ onSubmitSuccess }) {
     if (!formData.firstName) newErrors.firstName = 'First Name is required';
     if (!formData.lastName) newErrors.lastName = 'Last Name is required';
     if (!formData.phone) newErrors.phone = 'Phone Number is required';
-    if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = 'Invalid email format';
     }
+    if (!formData.purpose) newErrors.purpose = 'Purpose is required';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     setLoading(true);
 
     try {
-      const storedData = localStorage.getItem('visitorRegistrations');
-      const visitors = storedData ? JSON.parse(storedData) : [];
+      const response = await fetch("http://localhost:8080/api/visitors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
 
-      const newVisitor = {
-        id: getNextId(),
-        ...formData,
-        registrationDate: new Date().toISOString()
-      };
-
-      const updatedVisitors = [...visitors, newVisitor];
-      localStorage.setItem(
-        'visitorRegistrations',
-        JSON.stringify(updatedVisitors, null, 2)
-      );
-
-      window.dispatchEvent(new Event('storage'));
+      if (!response.ok) {
+        let errMsg = "Failed to save visitor data";
+        try {
+          const err = await response.json();
+          errMsg = err.error || Object.values(err).join(' ') || errMsg;
+        } catch (_) {}
+        toast.error(errMsg, { position: "top-center", autoClose: 3000 });
+        return;
+      }
 
       toast.success('Visitor registered successfully!', {
         position: "top-center",
@@ -191,7 +185,7 @@ function VisitorForm({ onSubmitSuccess }) {
       </div>
 
       <div className="form-group">
-        <label>Email</label>
+        <label>Email*</label>
         <input
           type="email"
           name="email"
@@ -203,13 +197,15 @@ function VisitorForm({ onSubmitSuccess }) {
       </div>
 
       <div className="form-group">
-        <label>Purpose of Visit</label>
+        <label>Purpose of Visit*</label>
         <input
           type="text"
           name="purpose"
           value={formData.purpose}
           onChange={handleChange}
+          className={errors.purpose ? 'input-error' : ''}
         />
+        {errors.purpose && <span className="error-message">{errors.purpose}</span>}
       </div>
 
       <div className="form-group">

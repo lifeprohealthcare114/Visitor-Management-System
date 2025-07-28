@@ -8,32 +8,44 @@ function VisitorLog() {
   const [filterDate, setFilterDate] = useState('');
 
   useEffect(() => {
-    const loadVisitors = () => {
-      const storedData = localStorage.getItem('visitorRegistrations');
-      if (storedData) {
-        setVisitors(JSON.parse(storedData));
+    // // Old localStorage logic:
+    // const loadVisitors = () => {
+    //   const storedData = localStorage.getItem('visitorRegistrations');
+    //   if (storedData) {
+    //     setVisitors(JSON.parse(storedData));
+    //   }
+    // };
+    // loadVisitors();
+    // window.addEventListener('storage', loadVisitors);
+    // return () => {
+    //   window.removeEventListener('storage', loadVisitors);
+    // };
+
+    // New: fetch from backend API
+    const loadVisitors = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/visitors");
+        if (!response.ok) throw new Error("Failed to fetch visitors");
+        const data = await response.json();
+        setVisitors(data);
+      } catch (err) {
+        setVisitors([]);
       }
     };
-    
     loadVisitors();
-    window.addEventListener('storage', loadVisitors);
-    
-    return () => {
-      window.removeEventListener('storage', loadVisitors);
-    };
   }, []);
 
   const filteredVisitors = visitors.filter(visitor => {
-    const matchesSearch = 
+    const matchesSearch =
       `${visitor.firstName} ${visitor.lastName} ${visitor.companyName}`
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
-    
-    const matchesDate = 
-      filterDate === '' || 
-      new Date(visitor.registrationDate).toLocaleDateString() === 
-      new Date(filterDate).toLocaleDateString();
-    
+
+    const matchesDate =
+      filterDate === '' ||
+      (visitor.registrationDate && new Date(visitor.registrationDate).toLocaleDateString()
+        === new Date(filterDate).toLocaleDateString());
+
     return matchesSearch && matchesDate;
   });
 
@@ -55,7 +67,6 @@ function VisitorLog() {
         />
         <ExportButton data={filteredVisitors} />
       </div>
-
       <div className="visitor-log-table-container">
         <table className="visitor-log-table">
           <thead>
@@ -63,6 +74,8 @@ function VisitorLog() {
               <th>Name</th>
               <th>Company</th>
               <th>Phone</th>
+              <th>Email</th>
+              <th>Designation</th>         
               <th>Visit Date</th>
               <th>Purpose</th>
             </tr>
@@ -74,13 +87,15 @@ function VisitorLog() {
                   <td>{visitor.title} {visitor.firstName} {visitor.lastName}</td>
                   <td>{visitor.companyName || '-'}</td>
                   <td>{visitor.phone || '-'}</td>
-                  <td>{new Date(visitor.registrationDate).toLocaleString()}</td>
+                  <td>{visitor.email || '-'}</td>
+                  <td>{visitor.designation || '-'}</td>
+                  <td>{visitor.registrationDate ? new Date(visitor.registrationDate).toLocaleString() : '-'}</td>
                   <td>{visitor.purpose || '-'}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="no-results">
+                <td colSpan="7" className="no-results">
                   No visitors found matching your criteria
                 </td>
               </tr>

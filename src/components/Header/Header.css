@@ -2,19 +2,29 @@
   background-color: var(--secondary-color);
   color: white;
   padding: 1rem 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
+/* NEW: Replace .container with header-specific container */
+.header-container {
+  width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+}
+
 .header-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* Align to left */
   align-items: center;
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: white;
   text-decoration: none;
 }
@@ -24,9 +34,15 @@
   margin: 0;
 }
 
+.logo-image {
+  height: 40px;
+  width: auto;
+}
+
 .header-actions {
   display: flex;
   gap: 10px;
+  margin-left: auto; /* Keep future buttons to the right */
 }
 
 .admin-btn {
@@ -60,7 +76,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,8 +146,9 @@
   .logo h1 {
     font-size: 1.2rem;
   }
-  
-  .admin-btn, .install-btn {
+
+  .admin-btn,
+  .install-btn {
     padding: 0.4rem 0.8rem;
     font-size: 0.9rem;
   }

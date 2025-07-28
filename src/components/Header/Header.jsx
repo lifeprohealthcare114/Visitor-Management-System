@@ -39,30 +39,15 @@ function Header({ onAdminLogin }) {
 
   return (
     <header className="header">
-      <div className="container">
+      <div className="header-container">
         <div className="header-content">
           <Link to="/" className="logo">
-            <h1>Visitor Management</h1>
+            <img src="/logo.png" alt="Logo" className="logo-image" />
+            <h1>Visitor Management System</h1>
           </Link>
-          
+
           <div className="header-actions">
-            {/* {deferredPrompt && !isAppInstalled && (
-              <button 
-                className="install-btn"
-                onClick={installApp}
-              >
-                Install App
-              </button>
-            )} */}
-            <button 
-              className="admin-btn"
-              onClick={() => setShowAdminModal(true)}
-            >
-              Admin
-              {notificationCount > 0 && (
-                <span className="notification-badge">{notificationCount}</span>
-              )}
-            </button>
+            {/* Optional buttons can go here */}
           </div>
         </div>
       </div>

@@ -15,13 +15,13 @@ function AdminDashboard() {
         const visitors = storedData ? JSON.parse(storedData) : [];
         setNewSubmissions(visitors.length);
         
-        if (visitors.length > newSubmissions) {
-          const newVisitor = visitors[visitors.length - 1];
-          toast.info(`New visitor: ${newVisitor.firstName} ${newVisitor.lastName}`, {
-            position: "top-right",
-            autoClose: 5000,
-          });
-        }
+        // if (visitors.length > newSubmissions) {
+        //   const newVisitor = visitors[visitors.length - 1];
+        //   toast.info(`New visitor: ${newVisitor.firstName} ${newVisitor.lastName}`, {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //   });
+        // }
       } catch (error) {
         console.error('Error parsing visitor data:', error);
         // Initialize with empty array if data is corrupted
@@ -50,11 +50,11 @@ function AdminDashboard() {
         <div className="admin-header">
           <h1>Visitor Management Dashboard</h1>
           <p>View and manage all visitor records</p>
-          {newSubmissions > 0 && (
+          {/* {newSubmissions > 0 && (
             <div className="new-submissions">
               New submissions: {newSubmissions}
             </div>
-          )}
+          )} */}
         </div>
         <VisitorLog />
       </main>
