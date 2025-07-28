@@ -7,8 +7,8 @@ function Header({ onAdminLogin }) {
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [notificationCount, setNotificationCount] = useState(0);
-  const { deferredPrompt, isAppInstalled, installApp } = usePWAInstallPrompt();
+  const [, setNotificationCount] = useState(0);
+  usePWAInstallPrompt();
   const navigate = useNavigate();
 
   useEffect(() => {
