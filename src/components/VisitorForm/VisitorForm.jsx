@@ -1,3 +1,4 @@
+// src/components/VisitorForm/VisitorForm.jsx
 import React, { useState } from 'react';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
@@ -65,6 +66,8 @@ function VisitorForm({ onSubmitSuccess }) {
     setLoading(true);
 
     try {
+      /*
+      // Original backend submission commented out as requested
       const response = await fetch("http://localhost:8080/api/visitors", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,12 +83,31 @@ function VisitorForm({ onSubmitSuccess }) {
         toast.error(errMsg, { position: "top-center", autoClose: 3000 });
         return;
       }
+      */
 
-      toast.success('Visitor registered successfully!', {
+      // Call Netlify Function to send thank-you email via Gmail SMTP
+      const emailResponse = await fetch('/.netlify/functions/sendThankYou', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        }),
+      });
+
+      if (!emailResponse.ok) {
+        const errorData = await emailResponse.json();
+        toast.error(`Failed to send thank you email: ${errorData.error || 'Unknown error'}`, { position: "top-center", autoClose: 4000 });
+        return;
+      }
+
+      toast.success('Visitor registered successfully and thank you email sent!', {
         position: "top-center",
         autoClose: 3000,
       });
 
+      // Reset form after success
       setFormData({
         title: '',
         firstName: '',
@@ -99,9 +121,10 @@ function VisitorForm({ onSubmitSuccess }) {
       });
 
       onSubmitSuccess();
+
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Failed to save visitor data');
+      toast.error('Failed to save visitor data or send thank you email');
     } finally {
       setLoading(false);
     }
