@@ -66,26 +66,19 @@ function VisitorForm({ onSubmitSuccess }) {
     setLoading(true);
 
     try {
-      /*
-      // Original backend submission commented out as requested
-      const response = await fetch("http://localhost:8080/api/visitors", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+      // Submit to Netlify Forms
+      const netlifyFormData = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        netlifyFormData.append(key, value);
+      });
+      netlifyFormData.append('form-name', 'visitorForm');
+
+      await fetch('/', {
+        method: 'POST',
+        body: netlifyFormData,
       });
 
-      if (!response.ok) {
-        let errMsg = "Failed to save visitor data";
-        try {
-          const err = await response.json();
-          errMsg = err.error || Object.values(err).join(' ') || errMsg;
-        } catch (_) {}
-        toast.error(errMsg, { position: "top-center", autoClose: 3000 });
-        return;
-      }
-      */
-
-      // Call Netlify Function to send thank-you email via Gmail SMTP
+      // Send Thank You email via Netlify Function
       const emailResponse = await fetch('/.netlify/functions/sendThankYou', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -96,29 +89,27 @@ function VisitorForm({ onSubmitSuccess }) {
         }),
       });
 
-  if (!emailResponse.ok) {
-  let errorMsg = `Error ${emailResponse.status}: ${emailResponse.statusText}`;
-  try {
-    const errorData = await emailResponse.json();
-    errorMsg = errorData.error || errorMsg;
-  } catch (jsonError) {
-    console.warn('No JSON response from server:', jsonError);
-  }
+      if (!emailResponse.ok) {
+        let errorMsg = `Error ${emailResponse.status}: ${emailResponse.statusText}`;
+        try {
+          const errorData = await emailResponse.json();
+          errorMsg = errorData.error || errorMsg;
+        } catch (jsonError) {
+          console.warn('No JSON response from server:', jsonError);
+        }
 
-  toast.error(`Failed to send thank you email: ${errorMsg}`, {
-    position: "top-center",
-    autoClose: 4000,
-  });
-  return;
-}
-
+        toast.error(`Failed to send thank you email: ${errorMsg}`, {
+          position: "top-center",
+          autoClose: 4000,
+        });
+        return;
+      }
 
       toast.success('Visitor registered successfully and thank you email sent!', {
         position: "top-center",
         autoClose: 3000,
       });
 
-      // Reset form after success
       setFormData({
         title: '',
         firstName: '',
@@ -142,7 +133,17 @@ function VisitorForm({ onSubmitSuccess }) {
   };
 
   return (
-    <form className="visitor-form" onSubmit={handleSubmit}>
+    <form
+      className="visitor-form"
+      onSubmit={handleSubmit}
+      name="visitorForm"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="visitorForm" />
+      <input type="hidden" name="bot-field" />
+
       <h2>Visitor Registration</h2>
 
       <div className="form-group">
