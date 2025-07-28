@@ -1,3 +1,5 @@
-[functions]
-  directory = "netlify/functions"
+# netlify.toml
+[build]
+  functions = "netlify/functions"
+
 
