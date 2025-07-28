@@ -1,53 +1,49 @@
+// netlify/functions/getSubmissions.js
 const fetch = require('node-fetch');
 
-exports.handler = async function (event, context) {
-  const API_TOKEN = process.env.NETLIFY_API_TOKEN;
-  const FORM_NAME = 'visitorForm'; // Match this with your actual form name in the HTML
-  const SITE_ID = process.env.SITE_ID; // Optional: only if managing multiple Netlify sites
+const FORM_NAME = 'visitor-form';
 
-  if (!API_TOKEN) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Missing NETLIFY_API_TOKEN' })
-    };
-  }
-
+exports.handler = async function () {
   try {
-    const response = await fetch(`https://api.netlify.com/api/v1/forms`, {
+    const NETLIFY_API_TOKEN = process.env.NETLIFY_API_TOKEN;
+    const SITE_ID = process.env.SITE_ID;
+
+    const res = await fetch(`https://api.netlify.com/api/v1/forms`, {
       headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${NETLIFY_API_TOKEN}`,
+      },
     });
 
-    const forms = await response.json();
-    const form = forms.find(f => f.name === FORM_NAME);
+    const forms = await res.json();
 
-    if (!form) {
+    const visitorForm = forms.find(form => form.name === FORM_NAME);
+    if (!visitorForm) {
       return {
         statusCode: 404,
-        body: JSON.stringify({ error: `Form '${FORM_NAME}' not found` })
+        body: JSON.stringify({ error: 'Form not found' }),
       };
     }
 
-    const submissionsRes = await fetch(`https://api.netlify.com/api/v1/forms/${form.id}/submissions`, {
-      headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
-        'Content-Type': 'application/json'
+    const submissionsRes = await fetch(
+      `https://api.netlify.com/api/v1/forms/${visitorForm.id}/submissions`,
+      {
+        headers: {
+          Authorization: `Bearer ${NETLIFY_API_TOKEN}`,
+        },
       }
-    });
+    );
 
     const submissions = await submissionsRes.json();
 
     return {
       statusCode: 200,
-      body: JSON.stringify(submissions)
+      body: JSON.stringify(submissions), // ✅ Return array directly
     };
-  } catch (err) {
-    console.error('Error fetching submissions:', err);
+  } catch (error) {
+    console.error('Error fetching Netlify submissions:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to fetch form submissions' })
+      body: JSON.stringify({ error: error.message }),
     };
   }
 };
