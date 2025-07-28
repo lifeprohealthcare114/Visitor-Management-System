@@ -1,74 +1,52 @@
+// netlify/functions/getSubmissions.js
 const fetch = require('node-fetch');
 
-const FORM_NAME = 'visitorForm';
+exports.handler = async function (event, context) {
+  const FORM_NAME = 'visitorForm';
+  const API_TOKEN = process.env.NETLIFY_API_TOKEN;
 
-exports.handler = async function () {
+  if (!API_TOKEN) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Missing NETLIFY_API_TOKEN in environment variables' }),
+    };
+  }
+
   try {
-    const NETLIFY_API_TOKEN = process.env.NETLIFY_API_TOKEN;
-
-    if (!NETLIFY_API_TOKEN) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Missing NETLIFY_API_TOKEN' }),
-      };
-    }
-
-    // Get all forms
-    const formsRes = await fetch('https://api.netlify.com/api/v1/forms', {
-      headers: { Authorization: `Bearer ${NETLIFY_API_TOKEN}` },
+    const res = await fetch(`https://api.netlify.com/api/v1/forms`, {
+      headers: {
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
     });
-    const forms = await formsRes.json();
 
-    const form = forms.find(f => f.name === FORM_NAME);
-    if (!form) {
+    const forms = await res.json();
+
+    const targetForm = forms.find((f) => f.name === FORM_NAME);
+
+    if (!targetForm) {
       return {
         statusCode: 404,
-        body: JSON.stringify({ error: `Form "${FORM_NAME}" not found` }),
+        body: JSON.stringify([]), // Return empty array if form not found
       };
     }
 
-    // Get submissions
-    const submissionsRes = await fetch(
-      `https://api.netlify.com/api/v1/forms/${form.id}/submissions`,
-      {
-        headers: { Authorization: `Bearer ${NETLIFY_API_TOKEN}` },
-      }
-    );
+    const submissionsRes = await fetch(`https://api.netlify.com/api/v1/forms/${targetForm.id}/submissions`, {
+      headers: {
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    });
 
-    const text = await submissionsRes.text();
-
-    if (!submissionsRes.ok) {
-      return {
-        statusCode: submissionsRes.status,
-        body: JSON.stringify({ error: text }),
-      };
-    }
-
-    let submissions;
-    try {
-      submissions = JSON.parse(text);
-    } catch {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Invalid JSON in submissions response' }),
-      };
-    }
-
-    if (!Array.isArray(submissions)) {
-      return {
-        statusCode: 200,
-        body: JSON.stringify([]),
-      };
-    }
+    const submissions = await submissionsRes.json();
 
     return {
       statusCode: 200,
-      body: JSON.stringify(submissions),
+      body: JSON.stringify(Array.isArray(submissions) ? submissions : []),
     };
-  } catch (err) {
+  } catch (error) {
+    console.error('Error fetching submissions:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify([]), // Always return array to avoid frontend .map error
     };
   }
 };

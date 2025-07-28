@@ -1,3 +1,4 @@
+// components/VisitorLog/VisitorLog.jsx
 import React, { useState, useEffect } from 'react';
 import ExportButton from '../ExportButton/ExportButton';
 import './VisitorLog.css';
