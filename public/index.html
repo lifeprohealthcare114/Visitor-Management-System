@@ -5,17 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#2c3e50" />
     <meta name="description" content="Visitor Management System PWA" />
-     <link rel="icon" href="logo.png" />
+    <link rel="icon" href="logo.png" />
+
     <!-- PWA meta tags -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="VisitorMgt">
-    
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="VisitorMgt" />
+
     <!-- Favicon and app icons -->
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png" />
     <link rel="manifest" href="logo.png" />
-    
+
+    <!-- ✅ Netlify Forms hidden HTML version -->
+    <form name="visitorForm" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="title" />
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="text" name="companyName" />
+      <input type="text" name="designation" />
+      <input type="text" name="phone" />
+      <input type="email" name="email" />
+      <input type="text" name="purpose" />
+      <textarea name="comment"></textarea>
+    </form>
+
     <title>Visitor Management System</title>
   </head>
   <body>
