@@ -86,7 +86,7 @@ function VisitorForm({ onSubmitSuccess }) {
       */
 
       // Call Netlify Function to send thank-you email via Gmail SMTP
-      const emailResponse = await fetch('\netlify\functions\sendThankYou.js', {
+      const emailResponse = await fetch('/netlify/functions/sendThankYou.js', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
