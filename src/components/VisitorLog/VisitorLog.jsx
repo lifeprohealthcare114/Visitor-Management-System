@@ -14,6 +14,12 @@ function VisitorLog() {
       const res = await fetch('/.netlify/functions/getSubmissions');
       const data = await res.json();
 
+      if (!Array.isArray(data)) {
+        console.error('Expected an array from Netlify Function, got:', data);
+        setVisitors([]);
+        return;
+      }
+
       const parsedVisitors = data.map(sub => {
         const fields = sub.data || {};
         return {
