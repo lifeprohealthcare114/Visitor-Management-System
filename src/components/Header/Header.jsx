@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { usePWAInstallPrompt } from '../../usePWAInstallPrompt';
 import './Header.css';
 
 function Header({ onAdminLogin }) {
@@ -8,7 +7,6 @@ function Header({ onAdminLogin }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [, setNotificationCount] = useState(0);
-  usePWAInstallPrompt();
   const navigate = useNavigate();
 
   useEffect(() => {
