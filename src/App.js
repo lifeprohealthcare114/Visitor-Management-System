@@ -1,6 +1,6 @@
 // App.jsx
 import React, { useState } from 'react';
-import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Home from './pages/Home/Home';
 import ThankYouMessage from './components/ThankYouMessage/ThankYouMessage';
