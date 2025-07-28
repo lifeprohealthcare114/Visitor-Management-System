@@ -96,11 +96,22 @@ function VisitorForm({ onSubmitSuccess }) {
         }),
       });
 
-      if (!emailResponse.ok) {
-        const errorData = await emailResponse.json();
-        toast.error(`Failed to send thank you email: ${errorData.error || 'Unknown error'}`, { position: "top-center", autoClose: 4000 });
-        return;
-      }
+  if (!emailResponse.ok) {
+  let errorMsg = `Error ${emailResponse.status}: ${emailResponse.statusText}`;
+  try {
+    const errorData = await emailResponse.json();
+    errorMsg = errorData.error || errorMsg;
+  } catch (jsonError) {
+    console.warn('No JSON response from server:', jsonError);
+  }
+
+  toast.error(`Failed to send thank you email: ${errorMsg}`, {
+    position: "top-center",
+    autoClose: 4000,
+  });
+  return;
+}
+
 
       toast.success('Visitor registered successfully and thank you email sent!', {
         position: "top-center",
