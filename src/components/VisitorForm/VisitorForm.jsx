@@ -79,31 +79,65 @@ function VisitorForm({ onSubmitSuccess }) {
       });
 
       // Send Thank You email via Netlify Function
-      const emailResponse = await fetch('/.netlify/functions/sendThankYou', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-        }),
-      });
+    const emailResponse = await fetch('/.netlify/functions/sendThankYou', {
+  method: 'POST',
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: formData.email,
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+  }),
+});
 
-      if (!emailResponse.ok) {
-        let errorMsg = `Error ${emailResponse.status}: ${emailResponse.statusText}`;
-        try {
-          const errorData = await emailResponse.json();
-          errorMsg = errorData.error || errorMsg;
-        } catch (jsonError) {
-          console.warn('No JSON response from server:', jsonError);
-        }
+if (!emailResponse.ok) {
+  let errorMsg = `Error ${emailResponse.status}: ${emailResponse.statusText}`;
+  try {
+    const errorData = await emailResponse.json();
+    errorMsg = errorData.error || errorMsg;
+  } catch (jsonError) {
+    console.warn('No JSON response from server:', jsonError);
+  }
 
-        toast.error(`Failed to send thank you email: ${errorMsg}`, {
-          position: "top-center",
-          autoClose: 4000,
-        });
-        return;
-      }
+  toast.error(`Failed to send thank you email: ${errorMsg}`, {
+    position: "top-center",
+    autoClose: 4000,
+  });
+  return;
+}
+
+// If thank you succeeded, now notify yourself
+const notifyResponse = await fetch('/.netlify/functions/notifyAdmin', {
+  method: 'POST',
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    email: formData.email,
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+  }),
+});
+
+if (!notifyResponse.ok) {
+  let errorMsg = `Error ${notifyResponse.status}: ${notifyResponse.statusText}`;
+  try {
+    const errorData = await notifyResponse.json();
+    errorMsg = errorData.error || errorMsg;
+  } catch (jsonError) {
+    console.warn('No JSON response from server:', jsonError);
+  }
+
+  toast.error(`Thank you email sent, but failed to notify admin: ${errorMsg}`, {
+    position: "top-center",
+    autoClose: 4000,
+  });
+  // Optionally return or continue
+  return;
+}
+
+// Success!
+toast.success("Thank you email sent & admin notified!", {
+  position: "top-center",
+  autoClose: 4000,
+});
 
       toast.success('Visitor registered successfully', {
         position: "top-center",
