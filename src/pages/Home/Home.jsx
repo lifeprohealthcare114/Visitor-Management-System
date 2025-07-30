@@ -10,11 +10,14 @@ function Home({ onSubmitSuccess, onAdminLogin }) {
         {/* Welcome Section moved here */}
         <section className="welcome-section fade-in">
           <div className="welcome-content">
-            <img
-              src="lifepro-logo.png"
-              alt="LifePro Logo"
-              className="welcome-logo"
-            />
+         <img
+  src="lifepro-logo.png"
+  alt="LifePro Logo"
+  className="welcome-logo"
+  width="180"
+  height="60"
+/>
+
             <div>
       <h1 className="welcome-title">Welcome — we're glad to have you here.</h1>
 <p className="subline">Your visit is important to us. Please complete the form below to check in.</p>

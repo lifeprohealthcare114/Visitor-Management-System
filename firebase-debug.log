@@ -1,0 +1,77 @@
+[debug] [2025-07-30T04:09:15.746Z] ----------------------------------------------------------------------
+[debug] [2025-07-30T04:09:15.747Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Admin\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-07-30T04:09:15.748Z] CLI Version:   14.11.1
+[debug] [2025-07-30T04:09:15.748Z] Platform:      win32
+[debug] [2025-07-30T04:09:15.748Z] Node Version:  v22.17.0
+[debug] [2025-07-30T04:09:15.748Z] Time:          Wed Jul 30 2025 09:39:15 GMT+0530 (India Standard Time)
+[debug] [2025-07-30T04:09:15.748Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-30T04:09:15.751Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-30T04:09:15.752Z] > authorizing via signed-in user (lifeprohealthcare114@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Admin\Downloads\frontend (1)\frontend
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-07-30T04:09:58.343Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:09:58.343Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:09:58.344Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-07-30T04:09:59.492Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-07-30T04:09:59.492Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project caterwill-gts-4wd (caterwill GTS 4WD) 
+[info] 
+=== Functions Setup
+[debug] [2025-07-30T04:10:06.806Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-30T04:10:06.806Z] > authorizing via signed-in user (lifeprohealthcare114@gmail.com)
+[debug] [2025-07-30T04:10:06.806Z] [iam] checking project caterwill-gts-4wd for permissions ["firebase.projects.get"]
+[debug] [2025-07-30T04:10:06.807Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:06.807Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:06.807Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/caterwill-gts-4wd:testIamPermissions [none]
+[debug] [2025-07-30T04:10:06.807Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/caterwill-gts-4wd:testIamPermissions x-goog-quota-user=projects/caterwill-gts-4wd
+[debug] [2025-07-30T04:10:06.807Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/caterwill-gts-4wd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-07-30T04:10:08.787Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/caterwill-gts-4wd:testIamPermissions 200
+[debug] [2025-07-30T04:10:08.787Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/caterwill-gts-4wd:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-07-30T04:10:08.788Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:08.788Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:08.789Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:08.789Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:08.789Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-07-30T04:10:08.789Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/caterwill-gts-4wd
+[debug] [2025-07-30T04:10:08.790Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-07-30T04:10:08.790Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/caterwill-gts-4wd
+[debug] [2025-07-30T04:10:10.739Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/runtimeconfig.googleapis.com 200
+[debug] [2025-07-30T04:10:10.739Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-07-30T04:10:10.748Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com 200
+[debug] [2025-07-30T04:10:10.748Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2025-07-30T04:10:10.749Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:10.749Z] Checked if tokens are valid: true, expires at: 1753851644690
+[debug] [2025-07-30T04:10:10.749Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com:enable [none]
+[debug] [2025-07-30T04:10:10.749Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com:enable x-goog-quota-user=projects/caterwill-gts-4wd
+[debug] [2025-07-30T04:10:11.449Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com:enable 200
+[debug] [2025-07-30T04:10:11.449Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/caterwill-gts-4wd/services/cloudfunctions.googleapis.com:enable [omitted]
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[info] +  Wrote functions/package.json 
+[info] +  Wrote functions/.eslintrc.js 
+[info] +  Wrote functions/index.js 
+[info] +  Wrote functions/.gitignore 

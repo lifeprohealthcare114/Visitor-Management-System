@@ -66,7 +66,6 @@ function VisitorForm({ onSubmitSuccess }) {
     setLoading(true);
 
     try {
-      // Submit to Netlify Forms
       const netlifyFormData = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         netlifyFormData.append(key, value);
@@ -78,66 +77,62 @@ function VisitorForm({ onSubmitSuccess }) {
         body: netlifyFormData,
       });
 
-      // Send Thank You email via Netlify Function
-    const emailResponse = await fetch('/.netlify/functions/sendThankYou', {
-  method: 'POST',
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    email: formData.email,
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-  }),
-});
+      const emailResponse = await fetch('/.netlify/functions/sendThankYou', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        }),
+      });
 
-if (!emailResponse.ok) {
-  let errorMsg = `Error ${emailResponse.status}: ${emailResponse.statusText}`;
-  try {
-    const errorData = await emailResponse.json();
-    errorMsg = errorData.error || errorMsg;
-  } catch (jsonError) {
-    console.warn('No JSON response from server:', jsonError);
-  }
+      if (!emailResponse.ok) {
+        let errorMsg = `Error ${emailResponse.status}: ${emailResponse.statusText}`;
+        try {
+          const errorData = await emailResponse.json();
+          errorMsg = errorData.error || errorMsg;
+        } catch (jsonError) {
+          console.warn('No JSON response from server:', jsonError);
+        }
 
-  toast.error(`Failed to send thank you email: ${errorMsg}`, {
-    position: "top-center",
-    autoClose: 4000,
-  });
-  return;
-}
+        toast.error(`Failed to send thank you email: ${errorMsg}`, {
+          position: "top-center",
+          autoClose: 4000,
+        });
+        return;
+      }
 
-// If thank you succeeded, now notify yourself
-const notifyResponse = await fetch('/.netlify/functions/notifyAdmin', {
-  method: 'POST',
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    email: formData.email,
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-  }),
-});
+      const notifyResponse = await fetch('/.netlify/functions/notifyAdmin', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        }),
+      });
 
-if (!notifyResponse.ok) {
-  let errorMsg = `Error ${notifyResponse.status}: ${notifyResponse.statusText}`;
-  try {
-    const errorData = await notifyResponse.json();
-    errorMsg = errorData.error || errorMsg;
-  } catch (jsonError) {
-    console.warn('No JSON response from server:', jsonError);
-  }
+      if (!notifyResponse.ok) {
+        let errorMsg = `Error ${notifyResponse.status}: ${notifyResponse.statusText}`;
+        try {
+          const errorData = await notifyResponse.json();
+          errorMsg = errorData.error || errorMsg;
+        } catch (jsonError) {
+          console.warn('No JSON response from server:', jsonError);
+        }
 
-  toast.error(`Thank you email sent, but failed to notify admin: ${errorMsg}`, {
-    position: "top-center",
-    autoClose: 4000,
-  });
-  // Optionally return or continue
-  return;
-}
+        toast.error(`Thank you email sent, but failed to notify admin: ${errorMsg}`, {
+          position: "top-center",
+          autoClose: 4000,
+        });
+        return;
+      }
 
-// Success!
-toast.success("Thank you email sent & admin notified!", {
-  position: "top-center",
-  autoClose: 4000,
-});
+      toast.success("Admin notified!", {
+        position: "top-center",
+        autoClose: 4000,
+      });
 
       toast.success('Visitor registered successfully', {
         position: "top-center",
@@ -160,7 +155,7 @@ toast.success("Thank you email sent & admin notified!", {
 
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Failed to registered successfully ');
+      toast.error('Failed to register successfully');
     } finally {
       setLoading(false);
     }
@@ -174,6 +169,7 @@ toast.success("Thank you email sent & admin notified!", {
       method="POST"
       data-netlify="true"
       netlify-honeypot="bot-field"
+      role="form"
     >
       <input type="hidden" name="form-name" value="visitorForm" />
       <input type="hidden" name="bot-field" />
@@ -181,12 +177,15 @@ toast.success("Thank you email sent & admin notified!", {
       <h2>Visitor Registration</h2>
 
       <div className="form-group">
-        <label>Title*</label>
+        <label htmlFor="title">Title*</label>
         <select
+          id="title"
           name="title"
           value={formData.title}
           onChange={handleChange}
           className={errors.title ? 'input-error' : ''}
+          aria-required="true"
+          aria-invalid={!!errors.title}
         >
           <option value="">Select Title</option>
           <option value="Mr">Mr.</option>
@@ -198,32 +197,39 @@ toast.success("Thank you email sent & admin notified!", {
       </div>
 
       <div className="form-group">
-        <label>First Name*</label>
+        <label htmlFor="firstName">First Name*</label>
         <input
+          id="firstName"
           type="text"
           name="firstName"
           value={formData.firstName}
           onChange={handleChange}
           className={errors.firstName ? 'input-error' : ''}
+          aria-required="true"
+          aria-invalid={!!errors.firstName}
         />
         {errors.firstName && <span className="error-message">{errors.firstName}</span>}
       </div>
 
       <div className="form-group">
-        <label>Last Name*</label>
+        <label htmlFor="lastName">Last Name*</label>
         <input
+          id="lastName"
           type="text"
           name="lastName"
           value={formData.lastName}
           onChange={handleChange}
           className={errors.lastName ? 'input-error' : ''}
+          aria-required="true"
+          aria-invalid={!!errors.lastName}
         />
         {errors.lastName && <span className="error-message">{errors.lastName}</span>}
       </div>
 
       <div className="form-group">
-        <label>Company Name</label>
+        <label htmlFor="companyName">Company Name</label>
         <input
+          id="companyName"
           type="text"
           name="companyName"
           value={formData.companyName}
@@ -232,8 +238,9 @@ toast.success("Thank you email sent & admin notified!", {
       </div>
 
       <div className="form-group">
-        <label>Designation</label>
+        <label htmlFor="designation">Designation</label>
         <input
+          id="designation"
           type="text"
           name="designation"
           value={formData.designation}
@@ -242,44 +249,56 @@ toast.success("Thank you email sent & admin notified!", {
       </div>
 
       <div className="form-group">
-        <label>Phone Number*</label>
+        <label htmlFor="phone">Phone Number*</label>
         <PhoneInput
+          id="phone"
+          name="phone"
           international
           defaultCountry="IN"
           value={formData.phone}
           onChange={handlePhoneChange}
+          aria-label="Phone Number"
+          aria-required="true"
+          aria-invalid={!!errors.phone}
           className={errors.phone ? 'phone-input-error' : ''}
         />
         {errors.phone && <span className="error-message">{errors.phone}</span>}
       </div>
 
       <div className="form-group">
-        <label>Email*</label>
+        <label htmlFor="email">Email*</label>
         <input
+          id="email"
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           className={errors.email ? 'input-error' : ''}
+          aria-required="true"
+          aria-invalid={!!errors.email}
         />
         {errors.email && <span className="error-message">{errors.email}</span>}
       </div>
 
       <div className="form-group">
-        <label>Purpose of Visit*</label>
+        <label htmlFor="purpose">Purpose of Visit*</label>
         <input
+          id="purpose"
           type="text"
           name="purpose"
           value={formData.purpose}
           onChange={handleChange}
           className={errors.purpose ? 'input-error' : ''}
+          aria-required="true"
+          aria-invalid={!!errors.purpose}
         />
         {errors.purpose && <span className="error-message">{errors.purpose}</span>}
       </div>
 
       <div className="form-group">
-        <label>Comments</label>
+        <label htmlFor="comment">Comments</label>
         <textarea
+          id="comment"
           name="comment"
           value={formData.comment}
           onChange={handleChange}

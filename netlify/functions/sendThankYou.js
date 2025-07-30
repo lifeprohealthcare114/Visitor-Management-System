@@ -19,8 +19,8 @@ exports.handler = async (event) => {
       port: 587,
       secure: false, // TLS
       auth: {
-        user: process.env.GMAIL_USER,     // Your full Gmail address
-        pass: process.env.GMAIL_APP_PASS, // Use Gmail App Password here
+        user: process.env.GMAIL_USER,     
+        pass: process.env.GMAIL_APP_PASS, 
       },
     });
 

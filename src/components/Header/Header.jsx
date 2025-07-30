@@ -40,7 +40,8 @@ function Header({ onAdminLogin }) {
       <div className="header-container">
         <div className="header-content">
           <Link to="/" className="logo">
-            <img src="/logo.png" alt="Logo" className="logo-image" />
+          <img src="/logo.png" alt="Logo" className="logo-image" width="120" height="40" />
+
             <h1>Visitor Management System</h1>
           </Link>
 
